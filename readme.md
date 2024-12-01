@@ -43,7 +43,9 @@ https://colab.research.google.com/drive/1fHx8fmsmR80W4bODKhMpR1vXllC9NDme?usp=sh
 
 ### Развернул сервис на своей виртуалке
 
-Скрипшот тогок ак делаю запросы на него из Postman:
+Swagger docs: https://ml.saharov.net/docs
+
+Скриyшот того как делаю запросы на него из Postman:
 
 ![img.png](img.png)
 
@@ -52,7 +54,7 @@ https://colab.research.google.com/drive/1fHx8fmsmR80W4bODKhMpR1vXllC9NDme?usp=sh
 1. predict_items:
 
 ```
-curl --location 'http://vpn.saharov.net/predict_items' \
+curl --location 'https://ml.saharov.net/predict_items' \
 --header 'accept: application/json' \
 --header 'Content-Type: application/json' \
 --data-raw '[
@@ -137,7 +139,7 @@ curl --location 'http://vpn.saharov.net/predict_items' \
 2. predict_item: 
 
 ```
-curl --location 'http://vpn.saharov.net/predict_item' \
+curl --location 'https://ml.saharov.net/predict_item' \
 --header 'accept: application/json' \
 --header 'Content-Type: application/json' \
 --data-raw '  {
