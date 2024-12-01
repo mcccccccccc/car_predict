@@ -11,7 +11,7 @@ pipe: Pipeline
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     global pipe
-    pipe = get_pipe('model_linreg_cars_.pkl')
+    pipe = get_pipe('model_linreg_cars.pkl')
 
     yield
 

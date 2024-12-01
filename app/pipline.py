@@ -62,7 +62,7 @@ def convert_str_cols(df):
 
 
 def get_pipe(filename):
-    with open('model_linreg_cars_.pkl', 'rb') as f:
+    with open(filename, 'rb') as f:
         pipe = pickle.load(f)
 
     return pipe
