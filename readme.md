@@ -15,8 +15,16 @@ https://colab.research.google.com/drive/1fHx8fmsmR80W4bODKhMpR1vXllC9NDme?usp=sh
 
 Модель получилась ужасная! Все делал строго по заданиям, но точно выше R^2=0.6 не была. Предсказания получаются отрицательные. Если найду время поковыряю еще. Мое подозрение что там все плохо с выбросами, и надо параметры регуляризации подбирать видимо.   
 
-### Pickle файл
+### pipeline.ipynb
+В этом ноутбуке собрал pipeline. Нашел вариант как сделать 90+ r2 скорр: учитывать марку машине без модификации поля name. 
+Думаю это не правильно т к модель выучивает дорогие модели машин. Если на вход придет новая модель, то модель растеряется. 
+
+### pipline.py
+В этот файл для сервиса вынес методы фильтрации входных данных 
+
+### Pickle файлы
 `app/model_linreg_cars.pkl` - файл с пайплайном. Внутри в т ч модель с весами.
+`app/model_linreg_brands.pkl` - файл с пайплайном который учитывает марку машины.
 
 С ним вознкла проблема которая заняла пол ночи. В пайплайне у меня есть кастомный трансформер. 
 Файл plk сохранился норм, в колабе в отдельном документе он открылся, но надо было перенести класс этого трансформара - все верно. 
@@ -26,7 +34,7 @@ https://colab.research.google.com/drive/1fHx8fmsmR80W4bODKhMpR1vXllC9NDme?usp=sh
 ### Запуск локально без докера
 
 Чтобы запустить локально проект без докера надо установить зависимости и запустить fastapi в директории проекта: 
-- `pip install -r /code/requirements.txt`
+- `pip install -r requirements.txt`
 - `fastapi dev app/app.py`
 
 ### Сборка контейнера
@@ -49,7 +57,7 @@ Swagger docs: https://ml.saharov.net/docs
 
 ![img.png](img.png)
 
-Вот рабочие запросы:
+Вот рабочие запросы (ручки):
 
 1. predict_items:
 
@@ -158,3 +166,12 @@ curl --location 'https://ml.saharov.net/predict_item' \
     "seats": 5.0
   }'
   ```
+
+3. Загрузка csv, валидация файла и предсказание - predict_file. Файлы [cars_test.csv](cars_test.csv) и 
+[cars_test_invalid.csv](cars_test_invalid.csv) лежать в корне репозитория. Пример запроса:
+```
+curl --location 'https://ml.saharov.net/predict_file' \
+--header 'accept: application/json' \
+--header 'Content-Type: application/json' \
+--form 'file=@"/Users/mc/hse/ML/HW-1/car-predict-api/cars_test.csv"'
+```

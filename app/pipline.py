@@ -1,10 +1,10 @@
 import pandas as pd
-from sklearn.base import TransformerMixin, BaseEstimator
+# from sklearn.base import TransformerMixin, BaseEstimator
 import pickle
 
 
-numeric_features = ["year", "km_driven", "mileage", "seats", "engine", "max_power"]
-categorical_features = ["fuel", "seller_type", "transmission", "owner"]
+numeric_features = ["year", "km_driven", "seats", 'mileage', 'engine', 'max_power']
+categorical_features = ['name', "fuel", "seller_type", "transmission", "owner"]
 
 
 # Я ПОЛ ДНЯ БИЛСЯ - ТАК И НЕ СМОГ ЗАСУНУТЬ ЭТОТ КАСТОМНЫЙ ТРАНСФОРМЕР В ПИКЛ, ТАК ЧТОБЫ ОН ПОДТЯШИВАЛСЯ ИМЕНО В ФАСТАПИ. в колабе получилось, нор у фаст апи какая-то своя система импортов
@@ -41,16 +41,12 @@ categorical_features = ["fuel", "seller_type", "transmission", "owner"]
 #         return X_res
 
 
-def remove_duplicates(df):
-    df = df.drop_duplicates(keep='first')
-    df = df.reset_index(drop=True)
-
-    return df
-
-
 def drop_cols(df):
     df = df[categorical_features + numeric_features]
+    return df
 
+def convert_names_to_brands(df):
+    df['name'] = df['name'].str.split().str[0]
     return df
 
 def convert_str_cols(df):
@@ -60,6 +56,11 @@ def convert_str_cols(df):
 
     return df
 
+def prepare_data(df):
+    df = convert_names_to_brands(df)
+    df = convert_str_cols(df)
+    df = drop_cols(df)
+    return df
 
 def get_pipe(filename):
     with open(filename, 'rb') as f:
